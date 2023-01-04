@@ -49,7 +49,7 @@ public class MapToolSelecter : MonoBehaviour
             RaycastHit hit;
             if(Physics.Raycast(ray, out hit, _maxDistance ,_clickLayer))
             {
-                TileMaster _tileMaster = hit.collider.gameObject.GetComponent<TileMaster>();
+                TileMaster _tileMaster = hit.collider.gameObject.GetComponentInParent<TileMaster>();
                 Debug.Assert(_tileMaster);
 
                 _tileMaster.SelectTile(_currentTileType);

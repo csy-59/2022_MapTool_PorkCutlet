@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TileType = MapToolSelecter.ETileType;
 
-public abstract class BasicTile : MonoBehaviour
+public class BasicTile : MonoBehaviour
 {
+    [SerializeField] private TileType _tileType = TileType.Basic;
+    public TileType MyTileType { get => _tileType; }
+
     private string _playerTag = "Player";
+    private bool _isGotData = false;
     protected GameObject _player;
 
     private void OnTriggerEnter(Collider other)
@@ -12,18 +17,24 @@ public abstract class BasicTile : MonoBehaviour
         if(other.CompareTag(_playerTag))
         {
             _player = other.gameObject;
-            OnPlayerEnter();
+            GetPlayerData();
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    protected virtual void GetPlayerData() 
     {
-        if(other.CompareTag(_playerTag))
-        {
-            OnPlayerExit();
-        }
+        _isGotData = true;
     }
 
-    protected abstract void OnPlayerEnter();
-    protected abstract void OnPlayerExit();
+    public virtual void OnPlayerEnter() 
+    { 
+        if(!_isGotData)
+        {
+            GetPlayerData();
+        }
+    }
+    public virtual void OnPlayerExit() 
+    {
+        _isGotData = false;
+    }
 }

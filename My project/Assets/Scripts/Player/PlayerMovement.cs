@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float _moveSpeed = 5f;
     public float MaxMoveSpeed { get; private set; }
-    public float MoveSpeed { get; set; }
+    public float MoveSpeed { get => _moveSpeed; set => _moveSpeed = value; }
 
     private readonly string _horizontal = "Horizontal";
     private readonly string _vertical = "Vertical";
