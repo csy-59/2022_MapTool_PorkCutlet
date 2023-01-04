@@ -23,11 +23,6 @@ public class MapToolSelecter : MonoBehaviour
 
     private ETileType _currentTileType = ETileType.Basic;
 
-    private void Awake()
-    {
-
-    }
-
     private void Update()
     {
         GetCurrentTileType();
@@ -56,7 +51,10 @@ public class MapToolSelecter : MonoBehaviour
             RaycastHit hit;
             if(Physics.Raycast(ray, out hit, _maxDistance ,_clickLayer))
             {
-                Debug.Log($"{hit.collider.gameObject.name} {_currentTileType}");
+                TileMaster _tileMaster = hit.collider.gameObject.GetComponent<TileMaster>();
+                Debug.Assert(_tileMaster);
+
+                _tileMaster.SelectTile(_currentTileType);
             }
         }
     }
