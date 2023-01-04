@@ -4,36 +4,26 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private Rigidbody _rigidBody;
+
     [SerializeField] private float _moveSpeed = 5f;
+    public float MaxMoveSpeed { get; private set; }
     public float MoveSpeed { get; set; }
-    Rigidbody _rigidBody;
+
+    private readonly string _horizontal = "Horizontal";
+    private readonly string _vertical = "Vertical";
 
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody>();
+        MaxMoveSpeed = _moveSpeed;
+        MoveSpeed = MaxMoveSpeed;
     }
 
     private void Update()
     {
-        Vector3 nextPosition = _rigidBody.position;
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            nextPosition.x += _moveSpeed * Time.deltaTime;
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            nextPosition.x -= _moveSpeed * Time.deltaTime;
-        }
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            nextPosition.z += _moveSpeed * Time.deltaTime;
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            nextPosition.z -= _moveSpeed * Time.deltaTime;
-        }
+        Vector3 offsetPosition = new Vector3(Input.GetAxisRaw(_horizontal), 0f, Input.GetAxisRaw(_vertical)).normalized;
+        Vector3 nextPosition = MoveSpeed * Time.deltaTime * offsetPosition + _rigidBody.position;
 
         _rigidBody.MovePosition(nextPosition);
     }
