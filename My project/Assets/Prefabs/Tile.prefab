@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4920825682664543301}
   - component: {fileID: 4920825682664543300}
   - component: {fileID: 4920825682664543303}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BushBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 4920825683064525354}
   - component: {fileID: 4920825683064525357}
   - component: {fileID: 4920825683064525356}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BaiscBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 4920825684056356529}
   - component: {fileID: 4920825684056356528}
   - component: {fileID: 4920825684056356531}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RiverBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -327,7 +327,8 @@ GameObject:
   - component: {fileID: 4920825684076649962}
   - component: {fileID: 4920825684076649965}
   - component: {fileID: 4920825684076649964}
-  m_Layer: 0
+  - component: {fileID: 6380322405791497779}
+  m_Layer: 7
   m_Name: WallBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -399,3 +400,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6380322405791497779
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4920825684076649966}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
