@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MapToolSelecter : MonoBehaviour
 {
-
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private float _maxDistance = 3000f;
     [SerializeField] private LayerMask _clickLayer;
@@ -20,7 +19,6 @@ public class MapToolSelecter : MonoBehaviour
     private const int _keyCodeAlphaStart = (int) KeyCode.Alpha1;
     private const int _keyCodeKeypadStart = (int) KeyCode.Keypad1;
     private const int _keyCodeLenth = (int)ETileType.Max;
-
     private ETileType _currentTileType = ETileType.Basic;
 
     private void Update()
