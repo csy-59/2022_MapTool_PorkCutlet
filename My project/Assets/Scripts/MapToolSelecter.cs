@@ -63,12 +63,13 @@ public class MapToolSelecter : MonoBehaviour
     public class MapInfo
     {
         // ¸Ê Å©±â
-        public int MapSize { get; set; }
+        public int MapSize;
         // csv ÆÄÀÏ Çü½Ä ¸Ê ÆÄÀÏ
-        public string MapFileName { get; set; }
+        public string MapFileName;
     }
     private MapInfo _mapInfo = new MapInfo();
 
+    private readonly string _mapInfoName = "MapInfo";
     private string _mapFileName = "Map";
 
     private void Awake()
@@ -179,9 +180,9 @@ public class MapToolSelecter : MonoBehaviour
             return;
         }
 
-        //_mapInfo = JsonParse<MapInfo>.Load(_mapInfo, _mapFileName);
-        //_mapFileName = _mapInfo.MapFileName;
-        //_mapSize = _mapInfo.MapSize;
+        _mapInfo = JsonParse<MapInfo>.Load(_mapInfo, _mapInfoName);
+        _mapFileName = _mapInfo.MapFileName;
+        _mapSize = _mapInfo.MapSize;
 
         string[][] mapString = CSVParse<int>.CSVToArrayOf2D(_mapFileName);
         for (int i = 0; i < mapString.Length; ++i)
@@ -199,7 +200,7 @@ public class MapToolSelecter : MonoBehaviour
         _mapInfo.MapSize = _mapSize;
         _mapInfo.MapFileName = _mapFileName;
         CSVParse<int>.ArrayOf2DToCSV(_map, _mapSize, _mapFileName);
-        JsonParse<MapInfo>.Save(_mapInfo, "MapInfo");
+        JsonParse<MapInfo>.Save(_mapInfo, _mapInfoName);
 
         _isMapModified = true;
     }
