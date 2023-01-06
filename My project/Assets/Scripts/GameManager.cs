@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
             _isSettingOver = Input.GetKeyDown(KeyCode.P);
             if(_isSettingOver)
             {
+                _mapToolSelecter.GetComponent<MapToolSelecter>().EndMaping();
                 _mapToolSelecter.SetActive(false);
                 _player.SetActive(true);
             }

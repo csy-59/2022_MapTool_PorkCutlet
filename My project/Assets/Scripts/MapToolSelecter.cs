@@ -79,12 +79,7 @@ public class MapToolSelecter : MonoBehaviour
             }
             else
             {
-                if(_isFocusing)
-                {
-                    _focusingTileMaterial.color = _originalTileColor;
-                    _focusingTile = null;
-                    _isFocusing = false;
-                }
+                ResetTile();
             }
         }
     }
@@ -97,6 +92,12 @@ public class MapToolSelecter : MonoBehaviour
                 Input.GetKeyDown((KeyCode)(_keyCodeKeypadStart + i)))
             {
                 _currentTileType = (ETileType)i;
+
+                if(_isFocusing)
+                {
+                    _focusingTileMaterial.color = _tempTileColor[(int)_currentTileType];
+                }
+                
                 break;
             }
         }
@@ -113,6 +114,21 @@ public class MapToolSelecter : MonoBehaviour
 
                 _tileMaster.SelectTile(_currentTileType);
             }
+        }
+    }
+
+    public void EndMaping()
+    {
+        ResetTile();
+    }
+
+    private void ResetTile()
+    {
+        if (_isFocusing)
+        {
+            _focusingTileMaterial.color = _originalTileColor;
+            _focusingTile = null;
+            _isFocusing = false;
         }
     }
 }
