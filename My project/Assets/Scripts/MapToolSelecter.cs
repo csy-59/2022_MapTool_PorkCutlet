@@ -34,9 +34,15 @@ public class MapToolSelecter : MonoBehaviour
         {
             if(value != _focusingTile)
             {
+
                 if(_isFocusing)
                 {
                     _focusingTileMaterial.color = _originalTileColor;
+
+                    if (_isDraging)
+                    {
+                        SetTileToType(value);
+                    }
                 }
 
                 _focusingTile = value;
@@ -58,6 +64,7 @@ public class MapToolSelecter : MonoBehaviour
     private TileMaster[] _tileMap;
     private int[][] _map;
     private bool _isMapModified = false;
+    private bool _isDraging = false;
 
     [Serializable]
     public class MapInfo
@@ -99,27 +106,7 @@ public class MapToolSelecter : MonoBehaviour
     {
         GetCurrentTileType();
         ShowTempTile();
-        GetMouseClickPosition();
-    }
-
-    private void ShowTempTile()
-    {
-        Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, _maxDistance))
-        {
-            GameObject hitObject = hit.collider.gameObject;
-
-            if (hitObject.CompareTag(_clickTag)) 
-            {
-                FocusingTile = hitObject;
-            }
-            else
-            {
-                ResetTile();
-            }
-        }
+        GetMouseDrag();
     }
 
     private void GetCurrentTileType()
@@ -141,6 +128,26 @@ public class MapToolSelecter : MonoBehaviour
         }
     }
 
+    private void ShowTempTile()
+    {
+        Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, _maxDistance))
+        {
+            GameObject hitObject = hit.collider.gameObject;
+
+            if (hitObject.CompareTag(_clickTag))
+            {
+                FocusingTile = hitObject;
+            }
+            else
+            {
+                ResetTile();
+            }
+        }
+    }
+
     private void GetMouseClickPosition()
     {
         if(Input.GetMouseButtonDown(0))
@@ -156,6 +163,32 @@ public class MapToolSelecter : MonoBehaviour
                 _isMapModified = true;
             }
         }
+    }
+    private void GetMouseDrag()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            if(_isFocusing)
+            {
+                SetTileToType(FocusingTile);
+                _isDraging = true;
+            }
+        }
+        else if(Input.GetMouseButtonUp(0))
+        {
+            _isDraging = false;
+        }
+    }
+
+    private void SetTileToType(GameObject tile)
+    {
+        TileMaster tileMaster = tile.GetComponentInParent<TileMaster>();
+        Debug.Assert(tileMaster);
+
+        tileMaster.SelectTile(_currentTileType);
+        int tileNumber = tileMaster.TileNumber;
+        _map[tileNumber / _mapSize][tileNumber % _mapSize] = (int)_currentTileType;
+        _isMapModified = true;
     }
 
     public void EndMaping()
