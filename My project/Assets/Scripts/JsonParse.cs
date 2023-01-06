@@ -18,7 +18,14 @@ public class JsonParse<T>
     public static T Load(T dataType, string fileName)
     {
         TextAsset textAsset = Resources.Load<TextAsset>(fileName);
+        
+        string path = $"{Application.dataPath}/Resources/{fileName}.json";
+        if (File.Exists(path))
+        {
+            string data = new StreamReader(path).ReadToEnd();
+            return JsonUtility.FromJson<T>(data);
+        }
 
-        return JsonUtility.FromJson<T>(textAsset.text.ToString());
+        return dataType;
     }
 }

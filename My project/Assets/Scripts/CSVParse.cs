@@ -13,6 +13,10 @@ public class CSVParse<T>
     public static bool ArrayOf2DToCSV(T[][] data, int columSize, string fileName)
     {
         string path = $"{Application.dataPath}/Resources/{fileName}.csv";
+        if(!File.Exists(path))
+        {
+            File.Create(path);
+        }
 
         using (StreamWriter streamWriter = new StreamWriter(path))
         {
@@ -31,7 +35,6 @@ public class CSVParse<T>
                 streamWriter.WriteLine(newText);
             }
 
-            AssetDatabase.Refresh();
         }
 
         return true;
@@ -39,27 +42,28 @@ public class CSVParse<T>
 
     public static string[][] CSVToArrayOf2D(string fileName)
     {
-        TextAsset text = Resources.Load<TextAsset>(fileName);
-        if (!text)
+        string path = $"{Application.dataPath}/Resources/{fileName}.csv";
+        if(File.Exists(path))
         {
-            Debug.Log("파일 없음");
-            return null;
-        }
+            string text = new StreamReader(path).ReadToEnd();
 
-        string[][] newArray;
-        string[] stringText = text.ToString().TrimEnd(_rowSeparator).Split(_rowSeparator);
-        newArray = new string[stringText.Length][];
-        for (int i = 0; i < stringText.Length; ++i)
-        {
-            string[] row = stringText[i].TrimEnd('\r').Split(_columSeparator);
-
-            newArray[i] = new string[row.Length];
-            for (int j = 0; j < row.Length; ++j)
+            string[][] newArray;
+            string[] stringText = text.TrimEnd(_rowSeparator).Split(_rowSeparator);
+            newArray = new string[stringText.Length][];
+            for (int i = 0; i < stringText.Length; ++i)
             {
-                newArray[i][j] = row[j];
+                string[] row = stringText[i].TrimEnd('\r').Split(_columSeparator);
+
+                newArray[i] = new string[row.Length];
+                for (int j = 0; j < row.Length; ++j)
+                {
+                    newArray[i][j] = row[j];
+                }
             }
+
+            return newArray;
         }
 
-        return newArray;
+        return null;
     }
 }
