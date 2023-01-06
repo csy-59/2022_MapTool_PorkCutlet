@@ -111,6 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tileType: 1
+  _enterPlayerAlphaValue: 0.5
 --- !u!1 &4920825682892403768
 GameObject:
   m_ObjectHideFlags: 0

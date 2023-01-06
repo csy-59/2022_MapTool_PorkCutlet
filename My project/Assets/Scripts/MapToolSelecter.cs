@@ -6,7 +6,9 @@ public class MapToolSelecter : MonoBehaviour
 {
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private float _maxDistance = 3000f;
-    [SerializeField] private LayerMask _clickLayer;
+    [SerializeField] private Material[] _tileMaterials;
+    private Color[] _tempTileColor = new Color[(int) ETileType.Max];
+    private readonly string _clickTag = "Tile";
 
     public enum ETileType
     {
@@ -21,10 +23,70 @@ public class MapToolSelecter : MonoBehaviour
     private const int _keyCodeLenth = (int)ETileType.Max;
     private ETileType _currentTileType = ETileType.Basic;
 
+    private GameObject _focusingTile;
+    public GameObject FocusingTile
+    {
+        get => _focusingTile;
+        set
+        {
+            if(value != _focusingTile)
+            {
+                if(_isFocusing)
+                {
+                    _focusingTileMaterial.color = _originalTileColor;
+                }
+
+                _focusingTile = value;
+                _focusingTileMaterial = _focusingTile.GetComponent<Renderer>().material;
+                _originalTileColor = _focusingTileMaterial.color;
+                _focusingTileMaterial.color = _tempTileColor[(int)_currentTileType];
+
+                _isFocusing = true;
+            }
+        }
+    }
+    private bool _isFocusing = false;
+    private Material _focusingTileMaterial;
+    private Color _originalTileColor;
+
+    private void Awake()
+    {
+        for(int i = 0; i<_tileMaterials.Length; ++i)
+        {
+            _tempTileColor[i] = _tileMaterials[i].color;
+            _tempTileColor[i].a = 0.5f;
+        }
+    }
+
     private void Update()
     {
         GetCurrentTileType();
+        ShowTempTile();
         GetMouseClickPosition();
+    }
+
+    private void ShowTempTile()
+    {
+        Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, _maxDistance))
+        {
+            GameObject hitObject = hit.collider.gameObject;
+            if (hitObject.CompareTag(_clickTag)) 
+            {
+                FocusingTile = hitObject;
+            }
+            else
+            {
+                if(_isFocusing)
+                {
+                    _focusingTileMaterial.color = _originalTileColor;
+                    _focusingTile = null;
+                    _isFocusing = false;
+                }
+            }
+        }
     }
 
     private void GetCurrentTileType()
@@ -44,12 +106,9 @@ public class MapToolSelecter : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-
-            RaycastHit hit;
-            if(Physics.Raycast(ray, out hit, _maxDistance ,_clickLayer))
+            if(_isFocusing)
             {
-                TileMaster _tileMaster = hit.collider.gameObject.GetComponentInParent<TileMaster>();
+                TileMaster _tileMaster = FocusingTile.GetComponentInParent<TileMaster>();
                 Debug.Assert(_tileMaster);
 
                 _tileMaster.SelectTile(_currentTileType);

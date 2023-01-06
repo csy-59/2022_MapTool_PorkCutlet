@@ -9514,9 +9514,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainCamera: {fileID: 963194227}
   _maxDistance: 3000
-  _clickLayer:
-    serializedVersion: 2
-    m_Bits: 128
+  _tileMaterials:
+  - {fileID: 2100000, guid: d489b42dd223b0d47a71743234c5b9a9, type: 2}
+  - {fileID: 2100000, guid: c470649f67dd63e4e96d0412919281c0, type: 2}
+  - {fileID: 2100000, guid: 3ca6b46faf82b624782f25261212b359, type: 2}
+  - {fileID: 2100000, guid: 58dae5d4d581ecd4baf9519f1cfea100, type: 2}
 --- !u!1001 &813778958
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13899,7 +13901,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1199203326}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.2, z: 0}
+  m_LocalPosition: {x: 0, y: 0.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
