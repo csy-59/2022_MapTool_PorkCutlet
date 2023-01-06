@@ -7,6 +7,7 @@ public class TileMaster : MonoBehaviour
 {
     [SerializeField] private GameObject[] _blocks;
     private TileType _currentTileType = TileType.Basic;
+    public int TileNumber { get; set; }
 
     public void SelectTile(TileType _type)
     {
